@@ -8,7 +8,7 @@
 
 * Description : BONUS PROBLEM
 
-* Date : 13-Apr-2022
+* Date : 20-Apr-2022
 
 * ************************************/
 
@@ -16,11 +16,10 @@
 
 int main(){
 
-	int num, den, one_count_gr = 0, one_count_ls = 0;
+	int num, den, one_count = 0, gi = 0;
 	printf("Enter num and den for (num/den): ");
 	scanf("%d %d", &num, &den);
 
-	int gi, ig;
 	printf("The continuous fraction form of (%d/%d) is\n", num, den);
 	printf("\n");
 	if (num > den){
@@ -36,7 +35,7 @@ int main(){
 			if (num > 1 && gi != 0){
 				printf("(%d", gi);
 				printf(" + 1/");
-				one_count_gr++;
+				one_count++;
 			}
 			else{
 				printf("%d)", gi);
@@ -44,7 +43,7 @@ int main(){
 			}
 		}
 
-		for (int i = 1; i < one_count_gr; i++){
+		for (int i = 1; i < one_count; i++){
 			printf(")");
 		}
 
@@ -60,26 +59,26 @@ int main(){
 
 		while ( num > 1 ){
 
-			ig = num/den;
+			gi = num/den;
 
-			num = num - ig*den;
+			num = num - gi*den;
 
 			num = num + den;
 			den = num - den;
 			num = num - den;
 
-			if (num > 1 && ig != 0){
-				printf("(%d", ig);
+			if (num > 1 && gi != 0){
+				printf("(%d", gi);
 				printf(" + 1/");
-				one_count_ls++;
+				one_count++;
 			}
 			else{
-				printf("%d)", ig);
+				printf("%d)", gi);
 				break;
 			}
 		}
 
-		for (int i = 0; i < one_count_ls; i++){
+		for (int i = 0; i < one_count; i++){
 			printf(")");
 		}
 
