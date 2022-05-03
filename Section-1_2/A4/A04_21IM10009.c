@@ -116,20 +116,11 @@ int main(){
 		printf("%d ", points[i]);
 	}
 
-	int f[2*n+1];
-	int g[2*n+1];
-	int h[2*n+1];
-	int m[2*n+1];
+	int f[2*n+1], g[2*n+1], h[2*n+1], m[2*n+1];
 	for (int i = 0; i <= 2*n; i++){
 		f[i] = f_coeff[0];
-	}
-	for (int i = 0; i <= 2*n; i++){
 		g[i] = g_coeff[0];
-	}
-	for (int i = 0; i <= 2*n; i++){
 		h[i] = h_coeff[0];
-	}
-	for (int i = 0; i <= 2*n; i++){
 		m[i] = 0;
 	}
 
@@ -224,10 +215,6 @@ int main(){
 	else{
 		printf("\nThe next check is only valid for n == 1\n");
 	}
-
-	// BONUS
-
-	
 
 	return 0;
 }
