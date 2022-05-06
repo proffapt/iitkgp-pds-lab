@@ -1,88 +1,146 @@
-#include <stdio.h>
+/************************************
+
+* Name : Arpit Bhardwaj
+
+* Roll No : 21IM10009
+
+* Section : 1
+
+* Group: 5
+
+* Test No : 1
+
+* Date : 04-05-2022
+
+* ************************************/
+
+#include<stdio.h>
 
 int main()
 {
+	/*PART 1*/
 
-	// Taking input from the user for the number:
-	int num;
-	printf("Enter an integer: ");
-	scanf("%d", &num);
-	printf("The number you entered is: %d\n", num);
+	// taking input for the number 
+	int number; 
+	printf("Enter a number : ");
+	scanf("%d", &number);
+	printf("You entered \"%d\"\n", number);
 
-	// Finding the number of digits in the entered number:
-	int count = 0;
-	int temp_num = num;
-	while (temp_num != 0)
+	// determining the number of digits in the input
+	int number_of_digits=0;
+	int temp_number = number;
+	while(temp_number != 0)	
 	{
-		temp_num = temp_num / 10;
-		++count;
-	}
-	printf("The number of digits in entered number is: %d\n", count);
-
-	// Printing sub integers made from the given input:
-
-	temp_num = num;
-	int number = num;
-	int digits[count];
-	for (int i = 0; i < count; i++)
-	{
-		digits[i] = temp_num % 10;
-		temp_num = temp_num / 10;
+		temp_number /= 10;
+		number_of_digits++;
 	}
 
-	int total = ((count) * (count + 1)) / 2;
-	int numbers[total];
-    int initiate;
-    int p=1;
-    int sum=0;
-    
-    for(int i = 0 ; i < total;i++)
-    {
-        numbers[i]=digits[total-(i+1)];
-    }
-    int k=total;
-    for(int i=2; i <= total ; i++)
-    {
+	printf("The number of digit(s) in %d is/are: %d\n", number, number_of_digits);
 
-        for(initiate=0;initiate<i;initiate++)
-        {
-            p=1;
-            sum=0;
-            for(int r =0;r <i;r++)
-            {
-                sum+=digits[initiate+r]*p;
-                p=p*10;
-            }
-            numbers[k]=sum;
-            k++;
-        }
-    }
+	/*PART 2*/
 
-	printf("The modified numbers are :\n");
-    for(int i = 0; i < total;i++)
-    {
-        printf("%d, ",numbers[i]);
-    }
-	printf("\b\b \n");
+	// 1-digit...nod-digit numbers
+	int ten = 10;
+	int power;
+	int index = 0;
+	int total = ((number_of_digits + 1) * number_of_digits)/2;
+	int nums[total];
+	for(int i = 1; i <= number_of_digits; i++)
+	{
+		// Calculating 10^i
+		power = i;
+		ten = 10 ;
+		while (power != 1)
+		{
+			ten *= 10;
+			--power;
+		}
 
-    // Individual prime number
-    printf("All the prime number from the individual numbers are : ");
-    for(int i=0; i < total ;i++)
-    {
-        int check=1;
-        for(int j = 2 ;j<numbers[i]/2 ; i++)
-        {
-            if(numbers[i]%j==0)
-            {
-                check=0;
-            }
-        }
-        if(check==1)
-        {
-            printf("%d, ",numbers[i]);
-        }
-    }
-	printf("\b\b \n");
+		// Storing those mother fucking digits
+		temp_number = number;
+		while (temp_number >= ten/10)
+		{
+			nums[index] = temp_number%ten;
+			index++;
+			temp_number = temp_number/10;
+		}
+	}
+
+	// Sorting numbers for the output in given order
+	int counter = 0, k = 0;
+	int nums_sorted[total];
+	for(int i = 0; i < number_of_digits; i++)
+ 	{
+		for (int j=number_of_digits-i-1; j >= 0 ; j--, k++)
+		{
+				nums_sorted[k] = nums[j+counter];
+		}
+		counter = k;
+	}
+
+	// Fixing repeated numbers
+	int i_flagged[total];
+	for(int i = 0; i < total; i++)
+		for(int j=i+1; j < total; j++)
+			if(nums_sorted[i] == nums_sorted[j])
+				i_flagged[i] = 69;
+
+	// Printing the numbers
+	printf("Required Constructed integers are: ");
+
+	for (int i = 0; i < total; i++)
+		if (i_flagged[i] != 69) printf("%d,", nums_sorted[i]);
+
+	printf("\b \n");
+
+	/*PART 3*/
+	
+	// Printing co-prime numbers
+	printf("Printing all possible pairs of co-prime numbers: ");
+	for(int i = 0; i < total; i++)
+	{
+		for (int m=i+1; m < total; m++)
+		{
+			int a = nums_sorted[i];
+			int b = nums_sorted[m];
+			// making sure a is bigger always
+			if( a < b )
+			{
+				a = a + b;
+				b = a - b;
+				a = a - b;
+			}
+			if (a%b != 0)
+			{
+				printf("(%d, %d),", a, b);
+			}
+		}
+	}
+	printf("\b. \n");
+
+	/*PART 4*/
+
+	// Finding all prime numbers
+	int is_prime[total];
+	printf("Printing all prime numbers: ");
+	for(int i = 0; i < total; i++)
+	{
+		for(int w = 2; w <= nums_sorted[i]/2; w++)
+		{
+			if (nums_sorted[i]%w == 0 || nums_sorted[i] <= 1) 
+			{
+				is_prime[i] = 0; 
+				break;
+			}
+		}
+	}
+
+	// Printing all prime numbers
+	for(int i = 0; i < total; i++)
+	{
+		if(is_prime[i]) printf("%d, ", nums_sorted[i]);
+	}
+	printf("\b\b. \n");
 
 	return 0;
 }
