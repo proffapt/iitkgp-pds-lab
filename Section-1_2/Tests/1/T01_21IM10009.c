@@ -72,9 +72,7 @@ int main()
 	for(int i = 0; i < number_of_digits; i++)
  	{
 		for (int j=number_of_digits-i-1; j >= 0 ; j--, k++)
-		{
 				nums_sorted[k] = nums[j+counter];
-		}
 		counter = k;
 	}
 
@@ -110,10 +108,7 @@ int main()
 				b = a - b;
 				a = a - b;
 			}
-			if (a%b != 0)
-			{
-				printf("(%d, %d),", a, b);
-			}
+			if (a%b != 0 && a != 0 && b != 0 && i_flagged[i] != 69 && i_flagged[m] != 69) printf("(%d, %d),", a, b);
 		}
 	}
 	printf("\b. \n");
@@ -124,22 +119,18 @@ int main()
 	int is_prime[total];
 	printf("Printing all prime numbers: ");
 	for(int i = 0; i < total; i++)
-	{
 		for(int w = 2; w <= nums_sorted[i]/2; w++)
 		{
 			if (nums_sorted[i]%w == 0 || nums_sorted[i] <= 1) 
 			{
-				is_prime[i] = 0; 
+				is_prime[i] = 69; 
 				break;
 			}
 		}
-	}
 
 	// Printing all prime numbers
 	for(int i = 0; i < total; i++)
-	{
-		if(is_prime[i]) printf("%d, ", nums_sorted[i]);
-	}
+		if(is_prime[i] != 69 && i_flagged[i] != 69) printf("%d, ", nums_sorted[i]);
 	printf("\b\b. \n");
 
 	return 0;
