@@ -20,118 +20,97 @@ int main()
 {
 	/*PART 1*/
 
-	// taking input for the number 
-	int number; 
-	printf("Enter a number : ");
-	scanf("%d", &number);
-	printf("You entered \"%d\"\n", number);
+	// Taking input for the number 
+	int n; 
+	printf("Enter a number : "); scanf("%d", &n);
+	printf("You entered \"%d\"\n", n);
 
-	// determining the number of digits in the input
-	int number_of_digits=0;
-	int temp_number = number;
-	while(temp_number != 0)	
-	{
-		temp_number /= 10;
-		number_of_digits++;
-	}
-
-	printf("The number of digit(s) in %d is/are: %d\n", number, number_of_digits);
+	// Determining the number of digits in the input and printing it
+	int temp_number, digits=0;
+	for(temp_number = n; temp_number != 0; digits++) temp_number /= 10;
+	printf("The number of digit(s) in %d is/are: %d\n", n, digits);
 
 	/*PART 2*/
 
 	// 1-digit...nod-digit numbers
-	int ten = 10;
-	int power;
-	int index = 0;
-	int total = ((number_of_digits + 1) * number_of_digits)/2;
-	int nums[total];
-	for(int i = 1; i <= number_of_digits; i++)
-	{
-		// Calculating 10^i
-		power = i;
-		ten = 10 ;
-		while (power != 1)
-		{
-			ten *= 10;
-			--power;
-		}
+	int counter = 0, k = 0, ten = 10, power, index = 0, total = ((digits + 1) * digits)/2, nums[total], nums_sorted[total];
+	
+	for(int i = 0; i < digits; i++){
+		// Calculating 10^(i+1)
+		for (ten = 10, power = i+1;power != 1; --power) ten *= 10;
 
 		// Storing those mother fucking digits
-		temp_number = number;
-		while (temp_number >= ten/10)
-		{
+		for (temp_number = n; temp_number >= ten/10; index++){
 			nums[index] = temp_number%ten;
-			index++;
 			temp_number = temp_number/10;
 		}
-	}
 
-	// Sorting numbers for the output in given order
-	int counter = 0, k = 0;
-	int nums_sorted[total];
-	for(int i = 0; i < number_of_digits; i++)
- 	{
-		for (int j=number_of_digits-i-1; j >= 0 ; j--, k++)
+		for (int j=digits-i-1; j >= 0 ; j--, k++)
 				nums_sorted[k] = nums[j+counter];
 		counter = k;
 	}
 
-	// Fixing repeated numbers
-	int i_flagged[total];
-	for(int i = 0; i < total; i++)
-		for(int j=i+1; j < total; j++)
-			if(nums_sorted[i] == nums_sorted[j])
-				i_flagged[i] = 69;
-
-	// Printing the numbers
+	// Fixing repeated numbers and Printing the numbers
+ 	int i, i_flagged[total];
 	printf("Required Constructed integers are: ");
 
-	for (int i = 0; i < total; i++)
-		if (i_flagged[i] != 69) printf("%d,", nums_sorted[i]);
+	for(i = 0, i_flagged[0] = 0; i < total; i++, i_flagged[i] = 0){
+		for(int j=i+1; j < total; j++)
+			if(nums_sorted[i] == nums_sorted[j])
+				i_flagged[i] = 1;
 
+		if (!i_flagged[i]) printf("%d,", nums_sorted[i]);
+	}
 	printf("\b \n");
 
 	/*PART 3*/
-	
-	// Printing co-prime numbers
-	printf("Printing all possible pairs of co-prime numbers: ");
-	for(int i = 0; i < total; i++)
-	{
-		for (int m=i+1; m < total; m++)
-		{
-			int a = nums_sorted[i];
-			int b = nums_sorted[m];
-			// making sure a is bigger always
-			if( a < b )
-			{
-				a = a + b;
-				b = a - b;
-				a = a - b;
+	printf("Printing all co-prime pairs: ");	
+
+	for(int a = 0, is_coprime = 1; a < index; a++, is_coprime = 1){
+		if(!i_flagged[a] && nums_sorted[a] != 0){
+			for(int b = a+1; b < index; b++){
+				if (!i_flagged[b] && nums_sorted[b] != 0){
+					int A = nums_sorted[a];
+					int B = nums_sorted[b];
+
+					// making sure A < B
+					if (A > B){
+						A = A + B;
+						B = A - B;
+						A = A - B;
+					}
+
+					for(i = 2; i < B; i++){
+						if (A%i == 0 && B%i == 0){
+							is_coprime = 0;
+						}
+					}
+					if(is_coprime) printf("(%d, %d),", A, B);
+				}
 			}
-			if (a%b != 0 && a != 0 && b != 0 && i_flagged[i] != 69 && i_flagged[m] != 69) printf("(%d, %d),", a, b);
 		}
 	}
-	printf("\b. \n");
+	printf("\b \n");
 
 	/*PART 4*/
 
-	// Finding all prime numbers
-	int is_prime[total];
+	// Finding and printing all prime numbers
 	printf("Printing all prime numbers: ");
-	for(int i = 0; i < total; i++)
-		for(int w = 2; w <= nums_sorted[i]/2; w++)
-		{
-			if (nums_sorted[i]%w == 0 || nums_sorted[i] <= 1) 
-			{
-				is_prime[i] = 69; 
-				break;
+
+	for(int i = 0, is_prime = 1; i < total; i++, is_prime = 1){
+		if(!i_flagged[i]){
+			if(nums_sorted[i] <= 1) {
+				is_prime = 0; 
+				continue;
 			}
+			for(int w = 2; w <= nums_sorted[i]/2; w++){
+				if (nums_sorted[i]%w == 0){
+					is_prime = 0; 
+					break;
+				}
+			}
+			if(is_prime) printf("%d, ", nums_sorted[i]);
 		}
-
-	// Printing all prime numbers
-	for(int i = 0; i < total; i++)
-		if(is_prime[i] != 69 && i_flagged[i] != 69) printf("%d, ", nums_sorted[i]);
+	}
 	printf("\b\b. \n");
-
-	return 0;
 }
