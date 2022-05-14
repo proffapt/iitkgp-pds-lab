@@ -19,24 +19,16 @@ int main()
 
 	// Printing those arrays
 	printf("a1 = [");
-	for(i=0; i<10; i++){
-		printf("%d, ", a1[i]);	
-	}
+	for(i=0; i<10; i++) printf("%d, ", a1[i]);	
 	printf("\b\b] \n");
 	printf("a2 = [");
-	for(i=0; i<10; i++){
-		printf("%d, ", a2[i]);	
-	}
+	for(i=0; i<10; i++) printf("%d, ", a2[i]);	
 	printf("\b\b] \n");
 	printf("a3 = [");
-	for(i=0; i<10; i++){
-		printf("%d, ", a3[i]);	
-	}
+	for(i=0; i<10; i++) printf("%d, ", a3[i]);	
 	printf("\b\b] \n");
 	printf("a4 = [");
-	for(i=0; i<10; i++){
-		printf("%d, ", a4[i]);	
-	}
+	for(i=0; i<10; i++) printf("%d, ", a4[i]);	
 	printf("\b\b] \n");
 
 	// >> Part b
@@ -49,9 +41,7 @@ int main()
 
 	// Displaying contents of a5
 	printf("a5 = [");
-	for(i=0; i<20; i++){
-		printf("%d, ", a5[i]);	
-	}
+	for(i=0; i<20; i++) printf("%d, ", a5[i]);	
 	printf("\b] \n");
 
 	// >> Part c
@@ -64,9 +54,7 @@ int main()
 
 	// Displaying contents of a6
 	printf("a6 = [");
-	for(i=0; i<20; i++){
-		printf("%d, ", a6[i]);	
-	}
+	for(i=0; i<20; i++) printf("%d, ", a6[i]);
 	printf("\b\b] \n");
 
 	// >> Part d
@@ -79,9 +67,7 @@ int main()
 
 	// Displaying contents of a6
 	printf("a7 = [");
-	for(i=0; i<40; i++){
-		printf("%d, ", a7[i]);	
-	}
+	for(i=0; i<40; i++) printf("%d, ", a7[i]);
 	printf("\b\b] \n");
 
 	return 0;
