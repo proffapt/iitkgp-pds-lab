@@ -49,7 +49,7 @@ int main()
 	int a6[20];
 	
 	// Interpersing contents of a3 and a4 into a6
-	for(i = 0, k = 0; i < 10; i++, k+=2) a6[k] = a3[i];  
+	for(i = 9, k = 0; i >= 0; i--, k+=2) a6[k] = a3[i];  
 	for(i = 0, k = 1; i < 10; i++, k+=2) a6[k] = a4[i];
 
 	// Displaying contents of a6
@@ -62,8 +62,8 @@ int main()
 	int a7[40];
 
 	// Interpersing contents of a5 and a6 into a7
-	for(i = 0, k = 0; i < 20; i++, k+=2) a7[k] = a5[i];  
-	for(i = 0, k = 1; i < 20; i++, k+=2) a7[k] = a6[i];
+	for(i = 19, k = 0; i >= 0; i--, k+=2) a7[k] = a5[i];  
+	for(i = 19, k = 1; i >= 0; i--, k+=2) a7[k] = a6[i];
 
 	// Displaying contents of a6
 	printf("a7 = [");
