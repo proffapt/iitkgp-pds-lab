@@ -16,7 +16,7 @@ int main()
 	for(pow=temp_pow, temp_number=number; pow!=0; pow/=10){
 		// extracting digit from the beginning of the number
 		digit=(temp_number/pow);
-		// removing the extra ted digit from the number
+		// removing the extracted digit from the number
 		temp_number-=(digit*pow);
 		// incrementing the digit by 1
 		digit+=1;
@@ -28,7 +28,7 @@ int main()
 	for(sum=0, temp_number=number, pow=temp_pow; pow!=0; pow/=10){
 		// extracting digit from the beginning of the number
 		digit=(temp_number/pow);
-		// removing the extra ted digit from the number
+		// removing the extracted digit from the number
 		temp_number-=(digit*pow);
 		// incrementing the digit by 1
 		digit+=1;
