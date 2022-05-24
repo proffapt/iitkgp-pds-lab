@@ -1,3 +1,3 @@
-# Section 1 and 2
+# Section 1 
 
-This folder contains solutions related to assignments of Section 1 and 2, doing PDS lab in second semester.
+This folder contains solutions related to assignments of Section 1 , doing PDS lab in second semester.

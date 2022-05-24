@@ -1,3 +1,3 @@
-# Section 11
+# Section 7
 
-This folder contains solutions related to tests of Section 11, doing PDS lab in first semester.
+This folder contains solutions related to tests of Section 7, doing PDS lab in first semester.
