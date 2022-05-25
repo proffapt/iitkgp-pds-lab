@@ -81,21 +81,19 @@ int main(){
 	printf("The number of matches of B[%d] in A[%d] are: %d\n", m, n, matches);
 
 
-	for (int i = 0; i < m; i++) {
-        for (int j = i; j < m; j++) {
-            int length = j - i + 1;
+	for (int i=0; i<m; i++) {
+        for (int j=i; j< m; j++) {
+            int length = j-i+1;
             int D[length]; // store the subsequence
-            for (int k = 0; k < length; k++) {
-                D[k] = B[k+i];
-            }
+            for (int k=0; k<length; k++) D[k]=B[k+i];
 
-            // Displaying the subsequence
+            // printing the subsequence
             printf("\nSubsequence D[%d] = <", length);
 			// for loop to print elements for the sequence D
-			for(int q=0; q<j-i+1; q++) printf("%d,", D[q]);
+			for(int q=0; q<length; q++) printf("%d,", D[q]);
 			printf("\b> \n"); // removing that comma in last
 
-            // Calling search function 
+            // calling the search function 
             matches = search(A, D, C, n, length);
             printf("The number of matches in A[%d] are: %d\n", n, matches);
         }
