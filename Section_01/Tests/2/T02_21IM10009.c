@@ -16,7 +16,7 @@
 
 #include<stdio.h>
 
-void readlists(int A[], int B[], n, m){
+void readlists(int A[], int B[], int n, int m){
 	printf("Enter elements for sequence A[%d]: ", n);
 	// for loop to take input for the sequence A
 	for(int i=0; i<n; i++) scanf("%d", &A[i]);
@@ -26,7 +26,7 @@ void readlists(int A[], int B[], n, m){
 	for(int i=0; i<m; i++) scanf("%d", &B[i]);
 }
 
-void printlist(int A[], int B[], n, m){
+void printlist(int A[], int B[], int n, int m){
 	printf("Printing elements for sequence A[%d]: <", n);
 	// for loop to print elements for the sequence A
 	for(int i=0; i<n; i++) printf("%d,", A[i]);
@@ -38,7 +38,7 @@ void printlist(int A[], int B[], n, m){
 	printf("\b> \n"); // removing that comma in last
 }
 
-int search(int A[], int B[], int C[], int n,int m){
+int search(int A[], int B[], int C[], int n, int m){
     int count=0, found=0, j, k=0; 
 
 	// checking the occurances
