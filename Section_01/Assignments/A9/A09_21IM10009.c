@@ -55,9 +55,8 @@ void display(node *ptr){
 node *concatenate(node *heads[], int number_of_lists){
 	for(int i=0; i<number_of_lists-1; i++){
 		node *ptr=heads[i];
-		while (ptr->next!=NULL){
+		while (ptr->next!=NULL)
 			ptr=ptr->next;
-		}
 		ptr->next=heads[i+1];
 	}
 	return heads[0];
@@ -65,9 +64,8 @@ node *concatenate(node *heads[], int number_of_lists){
 
 node *insert(node *ptr, int key, char *name){
     node *head=ptr;
-    while(ptr->next!=NULL){
+    while(ptr->next!=NULL)
         ptr = ptr->next;
-    }
 	node *insert=(node *)malloc(sizeof(node));
 	insert->key=key;
 	insert->name=name;
@@ -97,9 +95,8 @@ node *deletion(node *start, int key){
         return ptr;
     }
     else if (1<index && index<=end) {
-        for (int i=1; i<index-1; i++){
+        for (int i=1; i<index-1; i++)
             ptr=ptr->next;
-        }
         node *delete=ptr->next; // pointing to the to be deleted node
         ptr->next=ptr->next->next;
         free(delete); // freeing the memory
@@ -120,11 +117,11 @@ void destroylist(node *tobedeleted){
 		free(ptr1);
 		ptr1=ptr2;
 	}
+	free(ptr2);
 }
 
 int main(){
-	int n;
-	printf("Enter n: "); scanf("%d", &n);
+	int n; printf("Enter n: "); scanf("%d", &n);
 	printf("\n");
 		
 	node *heads[n];
@@ -137,49 +134,84 @@ int main(){
 		display(heads[i]);
 	}
 
-	int choice, i, key, pos;
+	int choice, i, key, lists[n];
 	char *name=(char *)malloc(sizeof(char));
-	node *concatlist;
+	for(int i=0; i<n; i++) lists[i]=1;
 	while(10){
-  
-		printf("Enter 1 to insert a node at the end\n");
-		printf("Enter 2 to delete the node\n");
-		printf("Enter 3 to concatinate the lists\n");
-		printf("Enter 4 to destroy the lists\n");
-		printf("Enter 0 to terminate\n");
-  
-		scanf("%d",&choice);
+		printf("\n1) Insert a node at the end\n");
+		printf("2) Delete the node with specific key\n");
+		printf("3) Concatinate the lists\n");
+		printf("4) Destroy the lists\n");
+		printf("5) Display the lists\n");
+		printf("0) Terminate\n");
+		printf("\nEnter your choice: "); scanf("%d",&choice);
+		printf("\nAvailable lists: <");
+		for(int i=0; i<n; i++)
+			if(lists[i]) printf(" %d,", i+1);
+		printf("\b > \n");
 		switch (choice){
 			case 1:
-                printf("In which list do you want to a enter a node\n");
-                printf("enter key\n"); scanf("%d", &key);
-                printf("enter name\n"); scanf(" %s",name);
-                scanf("%d",&i);
-				insert(heads[i], key, name);
+				do{
+					printf("In which list do you want to a enter a node: "); scanf("%d", &i);
+					if(i<1 || i>n) {
+						printf("Surely you are blind or foolish enough to unsee that Available lists ¯\\_(ツ)_/¯ \n");
+						continue;
+					}
+					else break;
+				} while(1);
+                printf("Enter key: "); scanf("%d", &key);
+                printf("Enter name: "); scanf(" %s", name);
+				heads[i-1]=insert(heads[i-1], key, name);
+				printf("Printing UPDATED list %d:\n\n", i);
+				display(heads[i-1]);
 				break;
 			case 2:
-			    printf("Enter the key   ");
-				scanf("%d",&pos);
-                printf("in which list do you want to a enter a node\n");
-                scanf("%d",&i);
-				deletion(heads[i], key);
+				do{
+					printf("In which list do you want to a delete the node: "); scanf("%d", &i);
+					if(i<1 || i>n) {
+						printf("Surely you are blind or foolish enough to unsee that Available lists ¯\\_(ツ)_/¯ \n");
+						continue;
+					}
+					else break;
+				} while(1);
+			    printf("Enter the key: "); scanf("%d",&key);
+				heads[i-1]=deletion(heads[i-1], key);
+				printf("Printing UPDATED list %d:\n\n", i);
+				display(heads[i-1]);
 				break;
 		  	case 3:
-				printf("concating\n");
-                concatlist=concatenate(heads,n);
-                printf("concated list :\n");
-                display(concatlist);
+                printf("CONCATED LIST :\n");
+                display(concatenate(heads, n));
+				for(int i=1; i<n; i++) lists[i]=0;
 				break;
 			case 4:
-                printf("in which list do you want to a enter a node\n");
-                scanf("%d",&i);
-				destroylist(heads[i]);
+				do{
+					printf("Enter the number of list you wanna destroy: "); scanf("%d",&i);
+					if(i<1 || i>n) {
+						printf("Surely you are blind or foolish enough to unsee that Available lists ¯\\_(ツ)_/¯ \n");
+						continue;
+					}
+					else break;
+				} while(1);
+				destroylist(heads[i-1]);
+				lists[i-1]=0;
+				break;
+			case 5:
+				do{
+					printf("Which list do you want to display: "); scanf("%d",&i);
+					if(i<1 || i>n) {
+						printf("Surely you are blind or foolish enough to unsee that Available lists ¯\\_(ツ)_/¯ \n");
+						continue;
+					}
+					else break;
+				} while(1);
+				display(heads[i-1]);
 				break;
 			case 0:
-				printf("The program is terminated\n");
+				printf("The program is terminated.\n");
 				return 0;
 			default:
-				printf("Invalid response  \n");
+				printf("Invalid response !! \n");
 		}
     }  
 	return 0;
