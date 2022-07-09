@@ -53,10 +53,12 @@ int main(){
 				switch(oneChoice){
 					case 1:
 						printf("Please enter an ID: "); scanf("%d", &id);
-						/* idSearch(id, table1, table2, n); */
+						idSearch(id, table1, table2, n);
+						break;
 					case 2:
-						printf("Please enter an Name: "); scanf("%s", username);
+						printf("Please enter an Name: "); scanf(" %s", username);
 						usernameSearch(username, table1, table2, n);
+						break;
 				}
 				break;
 			case 2:
@@ -81,6 +83,28 @@ int main(){
 	}
 }
 
+// search based on id
+void idSearch(int id, int table1[], char table2[], int entries){
+	int found=0;
+	for(int i=0; i<6*entries; i+=6){
+		if(id==table1[i]){
+			found=1;
+			// priting details of the user:
+			int name_index=3+(i/6)*14,
+			id_index=i;
+			printf("ID %d: Name: ", table1[id_index++]);
+			do{
+				printf("%c", table2[name_index++]);
+			}while(table2[name_index]!='\n');
+			printf("  Card Number: %d %.4d %.4d %.4d ", table1[id_index++], table1[id_index++], table1[id_index++], table1[id_index++]);
+			printf("  Limit: %.3d\n", table1[id_index++]);
+			break;
+		}
+	}
+	if(!found) printf("\nUser not found!\n");
+}
+
+// search based on username
 void usernameSearch(char name[], int table1[], char table2[], int entries){
 	int found=1, len_name, len_of_name=0;
 	for(int i=0, j=0; i<14*entries; i+=(10-len_of_name), len_of_name=j=0, found=1){
