@@ -20,7 +20,7 @@ void printTable2(char table[], int entries);
 void idSearch(int id, int table1[], char table2[], int entries);
 void usernameSearch(char name[], int table1[], char table2[], int entries);
 void updateLimit(char name[], int newlimit, int table1[], char table2[], int entries);
-void transaction(int card_number, int amount, int table1[], char table2[], int entries);
+void transaction(int cardnumber[], int amount, int table1[], char table2[], int entries);
 
 int main(){
 	srand(time(0)); // seeding the rand function
@@ -37,7 +37,7 @@ int main(){
 	printTable2(table2, n);
 
 	// Searching the tables
-	int choice, oneChoice, newLimit, id;
+	int choice, oneChoice, newLimit, id, amount, cardnumber[4];
 	char username[11];
 	while(1){
 		printf("\n  1) Search\n");
@@ -67,11 +67,9 @@ int main(){
 				updateLimit(username, newLimit, table1, table2, n);
 				break;
 			case 3: 	
-				/* unsigned long long int cardnumber; */
-				/* int amount; */
-				/* printf("Enter card number: "); scanf("%llu", &cardnumber); */
-				/* printf("Enter amount: "); scanf("%d", amount); */
-				/* transaction(cardnumber, amount, table1, table2, n); */
+				printf("Enter card number: "); scanf("%d %d %d %d", &cardnumber[0], &cardnumber[1], &cardnumber[2], &cardnumber[3]);
+				printf("Enter amount: "); scanf("%d", &amount);
+				transaction(cardnumber, amount, table1, table2, n);
 				break;
 			case 4:
 				printf("Goodbye!\n");
@@ -79,6 +77,31 @@ int main(){
 				break;
 			default:
 				printf("Invalid choice selected!\n");
+		}
+	}
+}
+
+// to carry out transaction:
+void transaction(int cardnumber[], int amount, int table1[], char table2[], int entries){
+	// checking for the authenticity of the card number
+	int card_found=0, i, check=0;
+	for(i=1; i<6*entries; i+=6, check=0){
+		for(int ci=0; ci<4; ci++) if(cardnumber[ci]==table1[i+ci]) check++;
+		if (check==4) {
+			card_found=1;
+			break;
+		}
+	}
+	if(!card_found) printf("\nInvalid Card NUmber!\n");
+	else {
+		int limit_index=i+4;
+		// checking whether amount entered is possible to withdraw
+		if(amount>table1[limit_index]) printf("Limit exceeded!\n");
+		else{
+			// Proceeding with the withdrawal
+			
+			// Printing updated account info
+			int name_index=3+(i/6)*14;
 		}
 	}
 }
