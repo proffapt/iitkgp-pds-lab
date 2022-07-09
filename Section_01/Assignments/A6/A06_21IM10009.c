@@ -18,7 +18,7 @@ void generateTable2(char table[], int table1[], int entries);
 void printTable1(int table[], int entries);
 void printTable2(char table[], int entries);
 void idSearch(int id, int table1[], char table2[], int entries);
-void usernameSearch(char username, int table1[], char table2[], int entries);
+void usernameSearch(char name[], int table1[], char table2[], int entries);
 void updateLimit(char name[], int newlimit, int table1[], char table2[], int entries);
 void transaction(int card_number, int amount, int table1[], char table2[], int entries);
 
@@ -37,7 +37,7 @@ int main(){
 	printTable2(table2, n);
 
 	// Searching the tables
-	int choice, newLimit;
+	int choice, oneChoice, newLimit, id;
 	char username[11];
 	while(1){
 		printf("\n  1) Search\n");
@@ -47,26 +47,22 @@ int main(){
 		printf("\nEnter your choice: "); scanf("%d", &choice);
 		switch(choice){
 			case 1:
-				/* int oneChoice; */
-				/* printf("Enter 1 to search by ID and 2 to search by name\n"); */
-				/* printf("Enter your choice: "); scanf("%d", &oneChoice); */
-				/* if(oneChoice==1){ */
-				/* 	int id; */
-				/* 	printf("Please enter an ID: "); scanf("%d", id); */
-				/* 	idSearch(id, table1, table2, n); */
-				/* } */
-				/* else if(oneChoice==2){ */
-				/* 	char username[]={}; */
-				/* 	printf("Please enter an Name: "); scanf("%s", username); */
-				/* 	usernameSearch(username, table1, table2, n); */
-				/* } */
+				printf("   1) Search by ID\n");
+				printf("   2) Search by name\n");
+				printf(" Enter your choice: "); scanf("%d", &oneChoice);
+				switch(oneChoice){
+					case 1:
+						printf("Please enter an ID: "); scanf("%d", &id);
+						/* idSearch(id, table1, table2, n); */
+					case 2:
+						printf("Please enter an Name: "); scanf("%s", username);
+						usernameSearch(username, table1, table2, n);
+				}
 				break;
 			case 2:
 				printf("Please enter the name: "); scanf(" %s", username);
 				printf("Please enter new Limit: "); scanf("%d", &newLimit);
 				updateLimit(username, newLimit, table1, table2, n);
-				printf("Updated ");
-				printTable1(table1, n);
 				break;
 			case 3: 	
 				/* unsigned long long int cardnumber; */
@@ -85,9 +81,41 @@ int main(){
 	}
 }
 
+void usernameSearch(char name[], int table1[], char table2[], int entries){
+	int found=1, len_name, len_of_name=0;
+	for(int i=0, j=0; i<14*entries; i+=(10-len_of_name), len_of_name=j=0, found=1){
+		i+=3;
+		// comparing data from input
+		do{
+			if(table2[i++]!=name[j++]) {
+				found=0;
+				break;
+			}
+			len_of_name++;
+		}while(table2[i]!='\n');
+		// getting length of name
+		for(len_name=0; name[len_name]!='\0'; len_name++) continue;
+		if(len_name==len_of_name && found){
+			// priting details of the user:
+			int name_index=i-len_of_name,
+			factor=(i-(len_of_name+3))/14,
+			id_index=0;
+			for( ; factor>0; factor--) id_index+=6;
+			printf("ID %d: Name: ", table1[id_index++]);
+			do{
+				printf("%c", table2[name_index++]);
+			}while(table2[name_index]!='\n');
+			printf("  Card Number: %d %.4d %.4d %.4d ", table1[id_index++], table1[id_index++], table1[id_index++], table1[id_index++]);
+			printf("  Limit: %.3d\n", table1[id_index++]);
+			break;
+		}
+	}
+	if(!(len_name==len_of_name && found)) printf("\nUser not found!\n");
+}
+
 void updateLimit(char name[],int newlimit, int table1[], char table2[], int entries){
-	int found=1, len_name;
-	for(int i=0, len_of_name=0, j=0; i<14*entries; i+=(10-len_of_name), len_of_name=j=0, found=1){
+	int found=1, len_name, len_of_name=0;
+	for(int i=0, j=0; i<14*entries; i+=(10-len_of_name), len_of_name=j=0, found=1){
 		i+=3;
 		// comparing data from input
 		do{
@@ -105,9 +133,12 @@ void updateLimit(char name[],int newlimit, int table1[], char table2[], int entr
 			int limit_index=5;
 			for( ; factor>0; factor--) limit_index+=6;
 			table1[limit_index]=newlimit;
+			printf("Updated ");
+			printTable1(table1, entries);
 			break;
 		}
 	}
+	if(!(len_name==len_of_name && found)) printf("\nIvalid username specified!\n");
 }
 
 // Generating table number 1
