@@ -92,16 +92,22 @@ void transaction(int cardnumber[], int amount, int table1[], char table2[], int 
 			break;
 		}
 	}
-	if(!card_found) printf("\nInvalid Card NUmber!\n");
+	if(!card_found) printf("\nERROR: Invalid Card NUmber!\n");
 	else {
 		int limit_index=i+4;
 		// checking whether amount entered is possible to withdraw
-		if(amount>table1[limit_index]) printf("Limit exceeded!\n");
+		if(amount>table1[limit_index]) printf("\nERROR: Limit exceeded!\n");
 		else{
 			// Proceeding with the withdrawal
-			
+			table1[limit_index]-=amount;
 			// Printing updated account info
-			int name_index=3+(i/6)*14;
+			int name_index=3+(i/6)*14, id_index=i-1;
+			printf("ID %d: Name: ", table1[id_index++]);
+			do{
+				printf("%c", table2[name_index++]);
+			}while(table2[name_index]!='\n');
+			printf("  Card Number: %d %.4d %.4d %.4d ", table1[id_index++], table1[id_index++], table1[id_index++], table1[id_index++]);
+			printf("  Limit: %.3d\n", table1[id_index++]);
 		}
 	}
 }
