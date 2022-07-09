@@ -28,13 +28,13 @@ int main(){
 	int n; printf("Please enter n: "); scanf("%d", &n);
 	// Declaring tables
 	int table1[6*n];
-	char table2[12*n];
+	char table2[14*n];
 	// Generating both the tables
 	generateTable1(table1, n);
-	/* generateTable2(table2, table1, n); */
+	generateTable2(table2, table1, n);
 	//printing both the tables
 	printTable1(table1, n);
-	/* printTable2(table2, n); */
+	printTable2(table2, n);
 
 	// Searching the tables
 	int choice, newLimit;
@@ -136,15 +136,16 @@ void printTable1(int table[], int entries){
 
 // Generating table number 2
 void generateTable2(char table[], int table1[], int entries){
-	// Copying ID from the table1 
-	for(int i1=0, i2=0; i2<13*entries; i1+=22, i2+=14)
-		for(int j=0; j<3; j++){
-			table[i2+j]=(char)table1[i1+j];
-		}
-	// Taking input from the user for usernames
 	char garbage; scanf("%c", &garbage);
-	for(int i=0, len_of_name=0; i<13*entries; i+=(11-len_of_name), len_of_name=0){
-		printf("Enter username for ID %d%d%d: ", table[i++], table[i++], table[i++]);
+	for(int i=0, len_of_name=0, j=0; i<14*entries; i+=(11-len_of_name), len_of_name=0){
+		// Copying ID from the table1 
+		int id=table1[j];
+		table[i]=id/100; id-=(id/100)*100;
+		printf("Enter username for ID %d", table[i++]);
+		table[i]=id/10; id-=(id/10)*10; printf("%d", table[i++]); 
+		table[i]=id; printf("%d: ", table[i++]);
+		j+=6;
+		// getting names from the user
 		do{
 			scanf("%c", &table[i++]);
 			len_of_name++;
@@ -155,9 +156,8 @@ void generateTable2(char table[], int table1[], int entries){
 // Printing table number 2
 void printTable2(char table[], int entries){
 	printf("\nTable 2:\n");
-	for(int i=0, len_of_name=0; i<13*entries; i+=(11-len_of_name), len_of_name=0){
-		printf("ID %d%d%d:  ", table[i++], table[i++], table[i++]);
-		printf(" Name: ");
+	for(int i=0, len_of_name=0; i<14*entries; i+=(11-len_of_name), len_of_name=0){
+		printf("ID %d%d%d:   Name: ", table[i++], table[i++], table[i++]);
 		do{
 			printf("%c", table[i++]);
 			len_of_name++;
