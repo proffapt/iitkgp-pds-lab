@@ -27,14 +27,14 @@ int main(){
 	// taking input for the number of entries
 	int n; printf("Please enter n: "); scanf("%d", &n);
 	// Declaring tables
-	int table1[22*n];
-	char table2[14*n];
+	int table1[6*n];
+	char table2[12*n];
 	// Generating both the tables
 	generateTable1(table1, n);
-	generateTable2(table2, table1, n);
+	/* generateTable2(table2, table1, n); */
 	//printing both the tables
 	printTable1(table1, n);
-	printTable2(table2, n);
+	/* printTable2(table2, n); */
 
 	// Searching the tables
 	int choice, newLimit;
@@ -116,25 +116,21 @@ void updateLimit(char name[],int newlimit, int table1[], char table2[], int entr
 
 // Generating table number 1
 void generateTable1(int table[], int entries){
-	for(int i=0, index=3; i<22*entries; i++){
-		table[i]=rand()%10; // appending random numbers from 0 to 9.
-		// making sure the first number of credit card is not 0.
-		if (table[index]==0){
-			table[index]=1+rand()%9; // random numbers from 1 to 9.
-			index+=22;
-		}
-		else if(i==index) index+=22;
+	for(int i=0; i<6*entries; ){
+		table[i++]=rand()%1000;
+		table[i++]=1000+rand()%9000;
+		for(int j=0; j<3; j++)table[i++]=rand()%10000;
+		table[i++]=rand()%1000;
 	}
 }
 
 // Printing table number 1
 void printTable1(int table[], int entries){
 	printf("Table 1:\n");
-	for(int i=0; i<22*entries;){
-		printf("ID %d%d%d: ", table[i++], table[i++], table[i++]);
-		printf("  Card Number: %d%d%d%d ", table[i++], table[i++], table[i++], table[i++]);
-		printf("%d%d%d%d %d%d%d%d %d%d%d%d", table[i++], table[i++], table[i++], table[i++], table[i++], table[i++], table[i++], table[i++], table[i++], table[i++], table[i++], table[i++]);
-		printf("  Limit: %d%d%d\n", table[i++], table[i++], table[i++]);
+	for(int i=0; i<6*entries;){
+		printf("ID %.3d: ", table[i++]);
+		printf("  Card Number: %d %.4d %.4d %.4d ", table[i++], table[i++], table[i++], table[i++]);
+		printf("  Limit: %.3d\n", table[i++]);
 	}
 }
 
