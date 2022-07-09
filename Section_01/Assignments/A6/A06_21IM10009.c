@@ -87,7 +87,7 @@ int main(){
 
 void updateLimit(char name[],int newlimit, int table1[], char table2[], int entries){
 	int found=1, len_name;
-	for(int i=0, len_of_name=0, j=0; i<13*entries; i+=(10-len_of_name), len_of_name=j=0, found=1){
+	for(int i=0, len_of_name=0, j=0; i<14*entries; i+=(10-len_of_name), len_of_name=j=0, found=1){
 		i+=3;
 		// comparing data from input
 		do{
@@ -102,13 +102,9 @@ void updateLimit(char name[],int newlimit, int table1[], char table2[], int entr
 		if(len_name==len_of_name && found){
 			// updating the value of limit
 			int factor=(i-(len_of_name+3))/14;
-			int limit_index=21;
-			for( ; factor>0; factor--) limit_index+=22;
-			for(int count=0; count<3; count++){
-				table1[limit_index]=newlimit%10;
-				newlimit/=10;
-				limit_index--;
-			}
+			int limit_index=5;
+			for( ; factor>0; factor--) limit_index+=6;
+			table1[limit_index]=newlimit;
 			break;
 		}
 	}
