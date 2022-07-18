@@ -185,33 +185,34 @@ int main(){
 
 	if (n==1){
 		// getting 2n+1 array values
-		float m1[2*n+1];
+		float m_coeff[2*n+1];
 		for (i=0; i<2*n+1; i++)
-			m1[i]=0;
+			m_coeff[i]=0;
 		printf("\nThe result of interpolation is:\n");
 
-		m1[0] = ((float)m[0]*points[1]*points[2]/((points[0]-points[1])*(points[0]-points[2])))+((float)m[1]*points[0]*points[2]/((points[1]-points[0])*(points[1]-points[2])))+((float)m[2]*points[0]*points[1]/((points[2]-points[1])*(points[2]-points[0])));
+		m_coeff[0] = ((float)m[0]*points[1]*points[2]/((points[0]-points[1])*(points[0]-points[2])))+((float)m[1]*points[0]*points[2]/((points[1]-points[0])*(points[1]-points[2])))+((float)m[2]*points[0]*points[1]/((points[2]-points[1])*(points[2]-points[0])));
 
-		m1[1] -= ((float)m[0]*(points[1]+points[2])/((points[0]-points[1])*(points[0]-points[2])));
-		m1[1] -= ((float)m[1]*(points[2]+points[0])/((points[1]-points[2])*(points[1]-points[0])));
-		m1[1] -= ((float)m[2]*(points[1]+points[0])/((points[2]-points[1])*(points[2]-points[0])));
+		m_coeff[1] -= ((float)m[0]*(points[1]+points[2])/((points[0]-points[1])*(points[0]-points[2])));
+		m_coeff[1] -= ((float)m[1]*(points[2]+points[0])/((points[1]-points[2])*(points[1]-points[0])));
+		m_coeff[1] -= ((float)m[2]*(points[1]+points[0])/((points[2]-points[1])*(points[2]-points[0])));
 
-		m1[2] = ((float)m[0]/((points[0]-points[1])*(points[0]-points[2])))+((float)m[1]/((points[1]-points[0])*(points[1]-points[2])))+((float)m[2]/((points[2]-points[1])*(points[2]-points[0])));
+		m_coeff[2] = ((float)m[0]/((points[0]-points[1])*(points[0]-points[2])))+((float)m[1]/((points[1]-points[0])*(points[1]-points[2])))+((float)m[2]/((points[2]-points[1])*(points[2]-points[0])));
 
 
-		printf("m(x) = %f", m1[0]);
+		printf("m(x) = %f", m_coeff[0]);
 		for(int i = 1; i <= 2;i++){
-			printf(" + %fx^%d", m1[i], i);
+			printf(" + %fx^%d", m_coeff[i], i);
 		}
 
 		// comparing m_coeff with h_coeff
-		float error=0.0001;
+		float error=0.001;
 		barabar_hai=1;
-		for(i=0; i<=2*n; i++)
-			if(h[i]-m[i]>error || m[i]-h[i]>error) {
+		for(i=0; i<=2*n; i++){
+			if(((float)h_coeff[i]-m_coeff[i])>error || (m_coeff[i]-(float)h_coeff[i])>error) {
 				barabar_hai=0;
 				break;
 			}
+		}
 		if (barabar_hai) printf("\nYay! Success.\n");
 		else printf("\nShit! Failed.\n");
 	}
