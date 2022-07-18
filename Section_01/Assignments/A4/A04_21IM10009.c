@@ -183,34 +183,37 @@ int main(){
 
 	// Part 4:
 
-	if (n == 1){
-		printf("The result of interpolation is:\n");
+	if (n==1){
+		// getting 2n+1 array values
+		float m1[2*n+1];
+		for (i=0; i<2*n+1; i++)
+			m1[i]=0;
+		printf("\nThe result of interpolation is:\n");
 
-		float m1[3];
-		for (int i = 0; i < 3; i++){
-			m1[i] = 0;
-		}
+		m1[0] = ((float)m[0]*points[1]*points[2]/((points[0]-points[1])*(points[0]-points[2])))+((float)m[1]*points[0]*points[2]/((points[1]-points[0])*(points[1]-points[2])))+((float)m[2]*points[0]*points[1]/((points[2]-points[1])*(points[2]-points[0])));
 
-		m1[0] = (m[0]*points[1]*points[2]/((points[0]-points[1])*(points[0]-points[2])))+(m[1]*points[0]*points[2]/((points[1]-points[0])*(points[1]-points[2])))+(m[2]*points[0]*points[1]/((points[2]-points[1])*(points[2]-points[0])));
+		m1[1] -= ((float)m[0]*(points[1]+points[2])/((points[0]-points[1])*(points[0]-points[2])));
+		m1[1] -= ((float)m[1]*(points[2]+points[0])/((points[1]-points[2])*(points[1]-points[0])));
+		m1[1] -= ((float)m[2]*(points[1]+points[0])/((points[2]-points[1])*(points[2]-points[0])));
 
-		m1[1] -= (m[0]*(points[1]+points[2])/((points[0]-points[1])*(points[0]-points[2])));
-    	m1[1] -= (m[1]*(points[2]+points[0])/((points[1]-points[2])*(points[1]-points[0])));
-   		m1[1] -= (m[2]*(points[1]+points[0])/((points[2]-points[1])*(points[2]-points[0])));
-
-		m1[2] = (m[0]/((points[0]-points[1])*(points[0]-points[2])))+(m[1]/((points[1]-points[0])*(points[1]-points[2])))+(m[2]/((points[2]-points[1])*(points[2]-points[0])));
+		m1[2] = ((float)m[0]/((points[0]-points[1])*(points[0]-points[2])))+((float)m[1]/((points[1]-points[0])*(points[1]-points[2])))+((float)m[2]/((points[2]-points[1])*(points[2]-points[0])));
 
 
 		printf("m(x) = %f", m1[0]);
-    	for(int i = 1; i <= 2;i++){
-        	printf(" + %fx^%d", m1[i], i);
-    	}
+		for(int i = 1; i <= 2;i++){
+			printf(" + %fx^%d", m1[i], i);
+		}
 
-		if (barabar_hai == 1){
-			printf("\nYay! Success.\n");
-		}
-		else{
-			printf("\nShit! Failed.\n");
-		}
+		// comparing m_coeff with h_coeff
+		float error=0.0001;
+		barabar_hai=1;
+		for(i=0; i<=2*n; i++)
+			if(h[i]-m[i]>error || m[i]-h[i]>error) {
+				barabar_hai=0;
+				break;
+			}
+		if (barabar_hai) printf("\nYay! Success.\n");
+		else printf("\nShit! Failed.\n");
 	}
 	else{
 		printf("\nThe next check is only valid for n == 1\n");
