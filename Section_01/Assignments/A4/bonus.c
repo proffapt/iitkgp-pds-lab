@@ -149,34 +149,36 @@ int main(){
 			for(l=2*n-i; l>1; l--) nop_2*=l;
 			for(l=i; l>1; l--) nop_3*=l;
 			nop=nop_1/(nop_2*nop_3);
+			/* printf("combinations = %d\n", nop); */
 			// getting numerator for current factor
 			q=0;
 			for(k=0; k<nop ; k++){ // how many combinations
 				for(l=0; l<2*n+1; l++) used[l]=0;
 				for(l=0; l<2*n-i; l++){ // individual numbers
 					q=rand()%(2*n+1);
-					if(q==j || used[q]) { --l; continue; }
+					if(q==j || used[q]) { printf("skip"); l--; continue; }
 					used[q]=1;
 					pnc*=points[q];
-					printf("points[%d]", q);
+					printf("[%d]", q);
 				}
-				printf(" + ");
 				num+=pnc;
+				printf("+");
 			}
 			num*=(float)m[j];
+			printf("\b*f");
 			// getting denominator for the factor
-			// this part is correct for real
 			for(k=0; k<=2*n; k++){
 				if(k==j) continue;
 				den*=(points[j]-points[k]);
 			}
+			printf("/d+");
 			factor=num/den;
 			if(!(i%2)) m_coeff[i]+=factor; // for even numbered term
 			else m_coeff[i]-=factor; // for odd numbered term
 			// resetting num, den and pnc
-			num=0, den=1, pnc=1;
+			num=0, den=1, pnc=1, nop_1=1, nop_2=1, nop_3=1;
 		}
-		printf("\b\b| ");
+		printf("\b | ");
 	}
 	/* m_coeff[0]+=((float)m[0]*points[1]*points[2]/((points[0]-points[1])*(points[0]-points[2]))); */
 	/* m_coeff[0]+=((float)m[1]*points[0]*points[2]/((points[1]-points[0])*(points[1]-points[2]))); */
