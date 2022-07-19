@@ -143,60 +143,53 @@ int main(){
 	// calculating coeff of m using langranges interpolation
 	float factor, num=0, den=1; int k, l, q, pnc=1, nop, nop_1=1, nop_2=1, nop_3=1, used[2*n+1];
 	for(i=0; i<=2*n; i++){ // completion of one iteration gives one coeff
+		/* printf("[%d]: ", i); */
 		for(j=0; j<=2*n; j++){ // completion of one iteration gives factor
+			/* printf("[%d]", j); */
 			// getting total permutations of terms in numerator
 			for(l=2*n; l>1; l--) nop_1*=l;
 			for(l=2*n-i; l>1; l--) nop_2*=l;
 			for(l=i; l>1; l--) nop_3*=l;
 			nop=nop_1/(nop_2*nop_3);
-			/* printf("combinations = %d\n", nop); */
 			// getting numerator for current factor
-			q=0;
+			for(l=0; l<=2*n; l++) used[l]=0;
+			/* printf("r"); */
 			for(k=0; k<nop ; k++){ // how many combinations
-				for(l=0; l<2*n+1; l++) used[l]=0;
 				for(l=0; l<2*n-i; l++){ // individual numbers
 					q=rand()%(2*n+1);
-					if(q==j || used[q]) { printf("skip"); l--; continue; }
+					if(q==j || used[q]) { --l; continue; }
+					/* printf("{%d}", used[q]); */
+					/* printf("."); */
 					used[q]=1;
 					pnc*=points[q];
-					printf("[%d]", q);
+					/* printf("[%d]", q); */
 				}
 				num+=pnc;
-				printf("+");
+				pnc=1;
+				/* printf("+"); */
 			}
 			num*=(float)m[j];
-			printf("\b*f");
+			/* printf("\b*f"); */
 			// getting denominator for the factor
 			for(k=0; k<=2*n; k++){
 				if(k==j) continue;
 				den*=(points[j]-points[k]);
 			}
-			printf("/d+");
+			/* printf("/d+"); */
 			factor=num/den;
 			if(!(i%2)) m_coeff[i]+=factor; // for even numbered term
 			else m_coeff[i]-=factor; // for odd numbered term
 			// resetting num, den and pnc
 			num=0, den=1, pnc=1, nop_1=1, nop_2=1, nop_3=1;
 		}
-		printf("\b | ");
+		/* printf("|\n"); */
 	}
-	/* m_coeff[0]+=((float)m[0]*points[1]*points[2]/((points[0]-points[1])*(points[0]-points[2]))); */
-	/* m_coeff[0]+=((float)m[1]*points[0]*points[2]/((points[1]-points[0])*(points[1]-points[2]))); */
-	/* m_coeff[0]+=((float)m[2]*points[0]*points[1]/((points[2]-points[1])*(points[2]-points[0]))); */
-
-	/* m_coeff[1]-=((float)m[0]*(points[1]+points[2])/((points[0]-points[1])*(points[0]-points[2]))); */
-	/* m_coeff[1]-=((float)m[1]*(points[2]+points[0])/((points[1]-points[2])*(points[1]-points[0]))); */
-	/* m_coeff[1]-=((float)m[2]*(points[1]+points[0])/((points[2]-points[1])*(points[2]-points[0]))); */
-
-	/* m_coeff[2]+=((float)m[0]/((points[0]-points[1])*(points[0]-points[2]))); */
-	/* m_coeff[2]+=((float)m[1]/((points[1]-points[0])*(points[1]-points[2]))); */
-	/* m_coeff[2]+=((float)m[2]/((points[2]-points[1])*(points[2]-points[0]))); */
 	// printing m
 	printf("\nThe result of interpolation is:\n");
 	printf("m(x) = %f", m_coeff[0]);
 	for(int i = 1; i<=2*n;i++) printf(" + %fx^%d", m_coeff[i], i);
 	// comparing m_coeff with h_coeff
-	float error=0.001;
+	float error=0.1;
 	barabar_hai=1;
 	for(i=0; i<=2*n; i++)
 		if(((float)h_coeff[i]-m_coeff[i])>error || (m_coeff[i]-(float)h_coeff[i])>error) {
