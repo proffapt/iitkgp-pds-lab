@@ -137,29 +137,34 @@ int main(){
 	if (barabar_hai) printf("\nCheck successful. h(x) and m(x) are equivalent\n");
 	else printf("\nCheck FAILED! h(x) and m(x) are NOT equivalent\n");
 
-	// Part 4:
+	// Part 4+5(bonus):
 	// getting 2n+1 array values and initialising them as 0
 	float m_coeff[2*n+1]; for (i=0; i<2*n+1; i++) m_coeff[i]=0;
 	// calculating coeff of m using langranges interpolation
-	float factor, num=0, den=1; int k, l, q, pnc=1, nop, nop_1=1, nop_2=1, nop_3=1, used[2*n+1];
+	float factor, num=0, den=1; int k, l, q, pnc=1, nop, nop_1=1, nop_2=1, nop_3=1, used[2*n+1], this;
 	for(i=0; i<=2*n; i++){ // completion of one iteration gives one coeff
 		/* printf("[%d]: ", i); */
 		for(j=0; j<=2*n; j++){ // completion of one iteration gives factor
-			/* printf("[%d]", j); */
 			// getting total permutations of terms in numerator
 			for(l=2*n; l>1; l--) nop_1*=l;
 			for(l=2*n-i; l>1; l--) nop_2*=l;
 			for(l=i; l>1; l--) nop_3*=l;
 			nop=nop_1/(nop_2*nop_3);
 			// getting numerator for current factor
-			for(l=0; l<=2*n; l++) used[l]=0;
-			/* printf("r"); */
+			if(i==0 || i>2*n-2){
+				for(l=0; l<=2*n; l++) used[l]=0;
+				this=0;
+			}
+			else this=1;
+			/* printf("("); */
 			for(k=0; k<nop ; k++){ // how many combinations
+				if (this){
+					for(l=0; l<=2*n; l++) used[l]=0;
+					/* printf("r"); */
+				}
 				for(l=0; l<2*n-i; l++){ // individual numbers
 					q=rand()%(2*n+1);
 					if(q==j || used[q]) { --l; continue; }
-					/* printf("{%d}", used[q]); */
-					/* printf("."); */
 					used[q]=1;
 					pnc*=points[q];
 					/* printf("[%d]", q); */
@@ -169,7 +174,7 @@ int main(){
 				/* printf("+"); */
 			}
 			num*=(float)m[j];
-			/* printf("\b*f"); */
+			/* printf("\b)*f"); */
 			// getting denominator for the factor
 			for(k=0; k<=2*n; k++){
 				if(k==j) continue;
@@ -179,18 +184,17 @@ int main(){
 			factor=num/den;
 			if(!(i%2)) m_coeff[i]+=factor; // for even numbered term
 			else m_coeff[i]-=factor; // for odd numbered term
-			// resetting num, den and pnc
-			num=0, den=1, pnc=1, nop_1=1, nop_2=1, nop_3=1;
+			// resetting num, den and all the factorials
+			num=0, den=1, nop_1=1, nop_2=1, nop_3=1;
 		}
-		/* printf("|\n"); */
+		/* printf("\b |\n"); */
 	}
 	// printing m
 	printf("\nThe result of interpolation is:\n");
 	printf("m(x) = %f", m_coeff[0]);
 	for(int i = 1; i<=2*n;i++) printf(" + %fx^%d", m_coeff[i], i);
 	// comparing m_coeff with h_coeff
-	float error=0.1;
-	barabar_hai=1;
+	float error=0.9; barabar_hai=1;
 	for(i=0; i<=2*n; i++)
 		if(((float)h_coeff[i]-m_coeff[i])>error || (m_coeff[i]-(float)h_coeff[i])>error) {
 			barabar_hai=0;
