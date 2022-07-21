@@ -141,18 +141,17 @@ int main(){
 	// getting 2n+1 array values and initialising them as 0
 	float m_coeff[2*n+1]; for (i=0; i<2*n+1; i++) m_coeff[i]=0;
 	// calculating coeff of m using langranges interpolation
-	float factor, num=0, den=1; int k, l, q, pnc=1, nop, nop_1=1, nop_2=1, nop_3=1, used[2*n+1], this/*, qdibba[2*n], p=0, o=0, combinations[600], found=0, counter=0*/;
+	float factor, num=0, den=1; int k, l, q, pnc=1, permutations=1, used[2*n+1], this/*, qdibba[2*n], p=0, o=0, combinations[600], found=0, counter=0*/;
 	for(i=0; i<=2*n; i++){ // completion of one iteration gives one coeff
 		for(j=0; j<=2*n; j++){ // completion of one iteration gives factor
 			// getting total permutations of terms in numerator
-			for(l=2*n; l>1; l--) nop_1*=l;
-			for(l=2*n-i; l>1; l--) nop_2*=l;
-			for(l=i; l>1; l--) nop_3*=l;
-			nop=nop_1/(nop_2*nop_3);
+			for(l=2*n; l>1; l--) permutations*=l;
+			for(l=2*n-i; l>1; l--) permutations/=l;
+			for(l=i; l>1; l--) permutations/=l;
 			// getting numerator for current factor
 			if(i==0 || i>2*n-2){
 				for(l=0; l<=2*n; l++) used[l]=0;
-				/* printf("R"); */
+				printf("R");
 				this=0;
 			}
 			else {
@@ -160,13 +159,13 @@ int main(){
 				/* o=0; */
 				this=1;
 			}
-			/* printf("("); */
-			for(k=0; k<nop ; k++){ // how many combinations
+			printf("(");
+			for(k=0; k<permutations ; k++){ // how many combinations
 				if (this){
 					for(l=0; l<=2*n; l++) used[l]=0;
 					/* for(l=0; l<p; l++) qdibba[l]=-1; */
 					/* p=0; */
-					/* printf("r"); */
+					printf("r");
 				}
 				for(l=0; l<2*n-i; l++){ // individual numbers
 					q=rand()%(2*n+1);
@@ -175,7 +174,7 @@ int main(){
 					/* qdibba[p++]=q; */
 					/* combinations[o++]=q; */
 					pnc*=points[q];
-					/* printf("[%d]", q); */
+					printf("[%d]", q);
 				}
 				/* if (this){ for(l=0; l<o ;l++){ */
 				/* 				for(int b=0; b<p; b++){ */
@@ -194,23 +193,23 @@ int main(){
 				/* 		} */
 				num+=pnc;
 				pnc=1;
-				/* printf("+"); */
+				printf("+");
 			}
 			num*=(float)m[j];
-			/* printf("\b)*f"); */
+			printf("\b)*f");
 			// getting denominator for the factor
 			for(k=0; k<=2*n; k++){
 				if(k==j) continue;
 				den*=(points[j]-points[k]);
 			}
-			/* printf("/d+"); */
+			printf("/d+");
 			factor=num/den;
 			if(!(i%2)) m_coeff[i]+=factor; // for even numbered term
 			else m_coeff[i]-=factor; // for odd numbered term
 			// resetting num, den and all the factorials
-			num=0, den=1, nop_1=1, nop_2=1, nop_3=1;
+			num=0, den=1, permutations=1;
 		}
-		/* printf("\b |\n"); */
+		printf("\b |\n");
 	}
 	// printing m
 	printf("\nThe result of interpolation is:\n");
