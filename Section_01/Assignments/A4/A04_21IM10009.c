@@ -1,19 +1,11 @@
 /************************************
-
 * Name : Arpit Bhardwaj
-
 * Roll No : 21IM10009
-
 * Section : 1
-
 * Group: 5
-
 * Assignment No : 4
-
 * Description : polynomials...
-
 * Date : 27-04-2022
-
 * ************************************/
 
 #include<stdio.h>
