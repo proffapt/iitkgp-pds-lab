@@ -185,10 +185,11 @@ int main(){
 				/* 							if(qdibba[a]==combinations[index]) counter++; */
 				/* 						} */
 				/* 						if(counter==2*n-i){ found=1; break; } */
+				/* 						counter=0; */
 				/* 					} */
 				/* 				} */
 				/* 			} */
-				/* 			if(found) { k--; continue; } */
+				/* 			if(found) { k--; found=0; continue; } */
 				/* 			pnc=1; */	
 				/* 		} */
 				num+=pnc;
